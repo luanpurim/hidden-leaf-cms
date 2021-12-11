@@ -59,6 +59,7 @@ function Document({
       </head>
       <body className="bg-gray-800 min-h-screen">
         {children}
+        <div id="modal-portal"></div>
         <RouteChangeAnnouncement />
         <ScrollRestoration />
         <Scripts />

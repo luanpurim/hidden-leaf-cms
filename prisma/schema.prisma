@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -16,4 +16,13 @@ model User {
   updatedAt    DateTime @updatedAt
   username     String   @unique
   passwordHash String
+}
+
+model Page {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  slug      String   @unique
+  body      String[]
 }

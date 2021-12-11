@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useDrag } from 'react-dnd'
 import componentRegistry, {
   ComponentRegistry,
@@ -15,17 +16,20 @@ export function AvailableComponent({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
       handlerId: monitor.getHandlerId(),
+      didDrop: monitor.didDrop(),
     }),
   }))
 
   const draggingStyle = isDragging ? 'opacity-25' : ''
   return (
-    <p
-      ref={drag}
-      className={`border border-gray-500 rounded-md p-1 text-gray-700 ${draggingStyle}`}
-    >
-      {component.name}
-    </p>
+    <>
+      <p
+        ref={drag}
+        className={`border border-gray-500 rounded-md p-1 text-gray-700 ${draggingStyle}`}
+      >
+        {component.name}
+      </p>
+    </>
   )
 }
 

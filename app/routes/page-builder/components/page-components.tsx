@@ -9,9 +9,17 @@ type PageComponentProps = {
   onRemove: () => void
   onMove: (dragIndex: number, hoverIndex: number) => void
   index: number
+  onChangeProps: (index, props) => void
 }
 
-function PageComponent({ item, onRemove, onMove, index }: PageComponentProps) {
+function PageComponent({
+  item,
+  onRemove,
+  onMove,
+  index,
+  onChangeProps,
+}: PageComponentProps) {
+  const [open, setOpen] = useState(true)
   const ref = useRef<HTMLDivElement>(null)
 
   const [{ handlerId }, drop] = useDrop(
@@ -72,6 +80,10 @@ function PageComponent({ item, onRemove, onMove, index }: PageComponentProps) {
     [index, item]
   )
 
+  function _onChangeProps(props) {
+    onChangeProps(index, props)
+  }
+
   drag(drop(ref))
 
   const style = isDragging ? 'opacity-0' : ' opacity-100'
@@ -91,6 +103,9 @@ function PageComponent({ item, onRemove, onMove, index }: PageComponentProps) {
         </svg>
       </span>
       <item.component />
+      {open ? (
+        <item.propsGetterComponent data={item.props} setData={_onChangeProps} />
+      ) : null}
     </div>
   )
 }
@@ -137,6 +152,13 @@ export function PageComponents() {
     [pageItems]
   )
 
+  function onChangeProps(index, props) {
+    setPageItems((actualItems) => {
+      const item = actualItems[index]
+      return [...actualItems].splice(index, 1, { ...item, props })
+    })
+  }
+
   const isDropActive = canDrop && isOver
   const containerStyle = isDropActive ? 'bg-gray-300' : ''
 
@@ -153,6 +175,7 @@ export function PageComponents() {
             onRemove={() => removeItem(item.uuid)}
             onMove={moveItem}
             index={index}
+            onChangeProps={onChangeProps}
           />
         )
       })}
