@@ -13,6 +13,7 @@ import {
 import type { LinksFunction } from 'remix'
 
 import globalStylesUrl from '~/styles/global.css'
+import Header from './components/header'
 
 /**
  * The `links` export is a function that returns an array of objects that map to
@@ -57,9 +58,8 @@ function Document({
         <Meta />
         <Links />
       </head>
-      <body className="bg-gray-800 min-h-screen">
+      <body className="bg-white min-h-screen">
         {children}
-        <div id="modal-portal"></div>
         <RouteChangeAnnouncement />
         <ScrollRestoration />
         <Scripts />
